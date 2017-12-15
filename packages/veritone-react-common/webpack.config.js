@@ -8,13 +8,13 @@ module.exports = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
-  resolve: {
-    alias: {
-      helpers: path.join(__dirname, 'src/helpers'),
-      components: path.join(__dirname, 'src/components'),
-      images: path.join(__dirname, 'src/resources/images'),
-    },
-  },
+  // resolve: {
+  //   alias: {
+  //     helpers: path.join(__dirname, 'src/helpers'),
+  //     components: path.join(__dirname, 'src/components'),
+  //     images: path.join(__dirname, 'src/resources/images'),
+  //   },
+  // },
   plugins: [
     new MinifyPlugin()
   ],

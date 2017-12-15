@@ -1,11 +1,31 @@
 {
-  "presets": ["env", "react"],
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ],
+    "react"
+  ],
   "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "helpers": "./src/helpers",
+          "components": "./src/components",
+          "images": "./src/resources/images"
+        }
+      }
+    ],
     "add-react-displayname",
     "transform-export-extensions",
     "transform-decorators-legacy",
     "transform-class-properties",
     "transform-object-rest-spread",
-    "lodash"
+    "lodash",
+    "external-helpers"
   ]
 }
