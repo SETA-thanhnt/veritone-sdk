@@ -2,17 +2,18 @@
   "name": "veritone-functional-permissions",
   "version": "1.0.1",
   "description": "responsible for managing functional permissions",
-  "main": "index.js",
+  "main": "dist/bundle-umd.js",
+  "module": "dist/bundle-es.js",
+  "jsnext:main": "dist/bundle-es.js",
   "homepage": "https://github.com/veritone/veritone-sdk/tree/master/packages/veritone-functional-permissions",
   "scripts": {
     "test": "./node_modules/gulp/bin/gulp.js test",
     "lint": "./node_modules/gulp/bin/gulp.js lint"
   },
-  "dependencies": {
-    "jsonwebtoken": "^7.4.3",
-    "uuid": "^3.1.0"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
     "eslint": "^3.0.1",
     "gulp": "^3.9.1",
     "gulp-coveralls": "^0.1.4",
@@ -20,7 +21,9 @@
     "gulp-eslint": "^3.0.1",
     "gulp-istanbul": "^1.0.0",
     "gulp-jasmine": "^2.4.0",
-    "gulp-nodemon": "^2.0.3"
+    "gulp-nodemon": "^2.0.3",
+    "rollup": "^0.52.2",
+    "rollup-plugin-babel": "^3.0.3"
   },
   "repository": {
     "type": "git",

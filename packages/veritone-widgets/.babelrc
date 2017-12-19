@@ -1,6 +1,15 @@
 {
-  "presets": ["env", "react"],
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ],
+    "react"
+  ],
   "plugins": [
+    "external-helpers",
     "transform-export-extensions",
     "transform-decorators-legacy",
     "transform-class-properties",

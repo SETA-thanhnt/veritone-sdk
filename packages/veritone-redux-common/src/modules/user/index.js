@@ -1,9 +1,6 @@
 import { CALL_API } from 'redux-api-middleware-fixed';
 import { get, isEmpty } from 'lodash';
-import {
-  permissions as perms,
-  util as permissionUtil
-} from 'veritone-functional-permissions';
+import { permissions, hasAccessTo } from 'veritone-functional-permissions';
 
 import { commonHeaders } from 'helpers/api';
 import { createReducer } from 'helpers/redux';
@@ -339,14 +336,14 @@ export function selectEnabledApps(state) {
         return true;
       }
 
-      const appAccessPermissionId = get(perms, [app.applicationKey, 'access']);
+      const appAccessPermissionId = get(permissions, [
+        app.applicationKey,
+        'access'
+      ]);
 
       return (
         appAccessPermissionId &&
-        permissionUtil.hasAccessTo(
-          appAccessPermissionId,
-          selectUser(state).permissionMasks
-        )
+        hasAccessTo(appAccessPermissionId, selectUser(state).permissionMasks)
       );
     });
 }

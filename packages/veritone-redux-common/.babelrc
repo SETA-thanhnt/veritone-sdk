@@ -1,6 +1,27 @@
 {
-  "presets": ["env", "react"],
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ],
+    "react"
+  ],
   "plugins": [
+    "external-helpers",
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "helpers": "./src/helpers",
+          "components": "./src/components",
+          "modules": "./src/modules",
+          "util": "./src/util"
+        }
+      }
+    ],
     "transform-export-extensions",
     "transform-decorators-legacy",
     "transform-class-properties",

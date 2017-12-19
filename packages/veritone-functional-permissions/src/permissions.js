@@ -3,7 +3,7 @@
 // use json format below (quoted key names) so that it can be copy pasted to permissions_json.go
 
 /* eslint-disable quotes, quote-props */
-module.exports = {
+export default {
 	"superadmin": 1,
 	"veritone": {
 		"superadmin": 1,

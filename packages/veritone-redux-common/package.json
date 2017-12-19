@@ -9,7 +9,9 @@
     "redux-api-middleware-fixed": "^1.2.0",
     "veritone-functional-permissions": "^1.0.1"
   },
-  "main": "dist/bundle.js",
+  "main": "dist/bundle-umd.js",
+  "module": "dist/bundle-es.js",
+  "jsnext:main": "dist/bundle-es.js",
   "scripts": {
     "start": "",
     "test": "jest",
@@ -25,6 +27,7 @@
   "devDependencies": {
     "babel-jest": "^21.2.0",
     "babel-minify-webpack-plugin": "^0.2.0",
+    "babel-plugin-module-resolver": "^3.0.0",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.2",
     "eslint": "^4.8.0",
@@ -36,6 +39,17 @@
     "react-test-renderer": "^16.0.0",
     "redux-mock-store": "^1.3.0",
     "rimraf": "^2.6.2",
+    "rollup": "^0.52.2",
+    "rollup-plugin-alias": "^1.4.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-import-alias": "^1.0.4",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-postcss": "^0.5.5",
+    "rollup-plugin-resolve-aliases": "^0.2.0",
+    "rollup-plugin-url": "^1.3.0",
     "veritone-dev-env": "^1.0.2",
     "webpack": "^3.6.0"
   },

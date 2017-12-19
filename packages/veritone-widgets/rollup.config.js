@@ -11,8 +11,6 @@ import builtins from 'rollup-plugin-node-builtins';
 import PropTypes from 'prop-types';
 
 import * as react from 'react'
-import * as dateFns from 'date-fns'
-import * as rfmui from 'redux-form-material-ui'
 
 const sassPreprocessor = (content, id) =>
   new Promise((resolve, reject) => {
@@ -34,12 +32,12 @@ let cssExportMap = {};
 
 export default [
   {
-    input: 'src/index.js',
+    input: 'src/build-entry.js',
     output: [
       {
         file: 'dist/bundle-umd.js',
         format: 'umd',
-        name: 'veritone-react-common'
+        name: 'veritone-widgets'
       },
       {
         file: 'dist/bundle-es.js',
@@ -47,7 +45,7 @@ export default [
         exports: 'named'
       }
     ],
-    external: ['react', 'react-dom', 'react-redux'],
+    external: ['react', 'react-dom', 'redux', 'react-redux', 'veritone-react-common', 'veritone-redux-common'],
     plugins: [
       // replace({
       //   'process.env.NODE_ENV': JSON.stringify('production')
@@ -55,8 +53,8 @@ export default [
       resolve({
         module: true,
         jsnext: true,
-        // browser: true,
-        main: true,
+        browser: true,
+        // main: true,
         // customResolveOptions: {
         //   moduleDirectory: ['../../node_modules', 'node_modules']
         // }
@@ -69,9 +67,7 @@ export default [
           'prop-types': Object.keys(PropTypes),
           'react-dom': ['findDOMNode'],
           'react': Object.keys(react),
-          'react-dnd': ['DragDropContextProvider', 'DropTarget'],
-          'date-fns': Object.keys(dateFns),
-          'redux-form-material-ui/es': Object.keys(rfmui)
+          'es6-promise': ['Promise']
         }
       }),
 
