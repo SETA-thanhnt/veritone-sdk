@@ -6,8 +6,6 @@ import replace from 'rollup-plugin-replace';
 import analyze from 'rollup-analyzer-plugin';
 // import uglify from 'rollup-plugin-uglify';
 
-import * as lodash from 'lodash';
-
 import PropTypes from 'prop-types';
 
 export default [
@@ -20,14 +18,7 @@ export default [
         exports: 'named'
       }
     ],
-    external: [
-      'react',
-      'react-dom',
-      'react-redux',
-      'redux-saga',
-      'redux-saga/effects',
-      ...Object.keys(lodash).map(name => `lodash-es/${name}`)
-    ],
+    external: ['react', 'react-dom', 'react-redux', 'redux-saga', 'redux-saga/effects', 'lodash'],
     plugins: [
       replace({
         'process.env.NODE_ENV': JSON.stringify('production')
