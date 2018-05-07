@@ -236,7 +236,9 @@ class MediaDetailsWidget extends React.Component {
 
   state = {
     selectedTabValue: 'mediaDetails',
-    hasPendingChanges: false
+    hasPendingChanges: false,
+
+    onSaveTranscriptSubscriber: null,
   };
 
   componentWillMount() {
@@ -307,6 +309,16 @@ class MediaDetailsWidget extends React.Component {
   };
 
   onSaveEdit = () => {
+    if (this.props.selectedEngineCategory &&
+      this.props.selectedEngineCategory.categoryType === 'transcript') {
+
+      if (this.state.onSaveTranscriptSubscriber) {
+        console.log('transcript data to save');
+        const transcriptToSave = this.state.onSaveTranscriptSubscriber();
+        console.log(transcriptToSave);
+      }
+
+    }
     this.toggleEditMode();
   };
 
@@ -379,6 +391,16 @@ class MediaDetailsWidget extends React.Component {
       contentTemplatesToDelete,
       contentTemplatesToCreate
     );
+  };
+
+  onSaveSubscription = getDataFunc => {
+    if (getDataFunc) {
+      console.log('On save get data func was provided');
+      console.log(getDataFunc);
+      this.setState({
+        onSaveTranscriptSubscriber: getDataFunc
+      });
+    }
   };
 
   render() {
@@ -585,7 +607,6 @@ class MediaDetailsWidget extends React.Component {
                     {editModeEnabled && (
                       <Button
                         className={styles.actionButtonEditMode}
-                        disabled={!this.state.hasPendingChanges}
                         onClick={this.onSaveEdit}
                       >
                         SAVE
@@ -630,6 +651,7 @@ class MediaDetailsWidget extends React.Component {
                         selectedEngineId={selectedEngineId}
                         onClick={this.handleUpdateMediaPlayerTime}
                         neglectableTimeMs={100}
+                        onSaveSubscription={this.onSaveSubscription}
                       />
                     )}
                   {selectedEngineCategory &&
@@ -694,7 +716,6 @@ class MediaDetailsWidget extends React.Component {
                         engines={selectedEngineCategory.engines}
                         selectedEngineId={selectedEngineId}
                         onEngineChange={this.handleSelectEngine}
-                        onExpandClicked={this.toggleExpandedMode}
                       />
                     )}
                   {selectedEngineCategory &&
@@ -702,15 +723,11 @@ class MediaDetailsWidget extends React.Component {
                       <TranslationEngineOutput
                         contents={engineResultsByEngineId[selectedEngineId]}
                         onClick={this.handleUpdateMediaPlayerTime}
-                        //onRerunProcess={handle rerun process callback}
+                        onRerunProcess={this.handleRunProcess}
                         className={styles.engineOuputContainer}
                         engines={selectedEngineCategory.engines}
                         selectedEngineId={selectedEngineId}
                         onEngineChange={this.handleSelectEngine}
-                        onExpandClicked={this.toggleExpandedMode}
-                        //languages={language options}
-                        //defaultLanguage={'en-US'}
-                        //onLanguageChanged={handle on language change callback}
                         mediaPlayerTimeMs={mediaPlayerTimeInMs}
                         mediaPlayerTimeIntervalMs={500}
                       />

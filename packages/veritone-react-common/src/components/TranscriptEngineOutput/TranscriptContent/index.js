@@ -45,19 +45,64 @@ export default class TranscriptContent extends Component {
     estimatedDisplayTimeMs: number,
 
     mediaPlayerTimeMs: number,
-    mediaPlayerTimeIntervalMs: number
+    mediaPlayerTimeIntervalMs: number,
+
+    onSaveSubscription: func
   };
 
   static defaultProps = {
     editMode: false,
     overview: false,
     mediaPlayerTimeMs: 0,
-    mediaPlayerTimeIntervalMs: 1000
+    mediaPlayerTimeIntervalMs: 1000,
   };
+
+  state = {
+    modifiedSnippetsData: []
+  };
+
+  componentDidMount() {
+    if (this.props.onSaveSubscription) {
+      this.props.onSaveSubscription(this.provideDataToSave);
+    }
+  }
 
   handleOnClick = (target, value) => {
     this.props.onClick &&
       this.props.onClick(value.startTimeMs, value.stopTimeMs);
+  };
+
+  provideDataToSave = () => {
+    return this.state.modifiedSnippetsData;
+  };
+
+  handleSnippetChange = (event, data) => {
+    console.log(data);
+
+    let editedData = this.state.modifiedSnippetsData;
+    if (!editedData || !editedData.length) {
+      // make a copy of the original
+      const parsedData = this.parseData();
+      if (parsedData && parsedData.snippetSegments && parsedData.snippetSegments.fragments) {
+        editedData = parsedData.snippetSegments.fragments;
+      }
+    }
+
+    if (data) {
+
+      const originalSnippet = data.originalValue;
+      // now find originalSnippet in editedData and substitute it.
+
+      const newData = this.state.modifiedSnippetsData.splice(0);
+
+      newData.push(data);
+
+      //[{startTimeMS, endTimeMs, text: }]
+
+      this.setState({
+        modifiedSnippetsData: newData
+      });
+    }
   };
 
   parseData() {
@@ -236,6 +281,9 @@ export default class TranscriptContent extends Component {
               content={segmentData}
               editMode={editMode}
               onClick={this.handleOnClick}
+
+              onChange={this.handleSnippetChange}
+
               startMediaPlayHeadMs={mediaPlayerTimeMs}
               stopMediaPlayHeadMs={stopMediaPlayHeadMs}
               classNames={classNames(styles.contentSegment)}

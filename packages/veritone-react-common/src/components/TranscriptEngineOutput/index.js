@@ -58,7 +58,9 @@ export default class TranscriptEngineOutput extends Component {
     estimatedDisplayTimeMs: number,
 
     mediaPlayerTimeMs: number,
-    mediaPlayerTimeIntervalMs: number
+    mediaPlayerTimeIntervalMs: number,
+
+    onSaveSubscription: func
   };
 
   static defaultProps = {
@@ -174,7 +176,9 @@ export default class TranscriptEngineOutput extends Component {
       estimatedDisplayTimeMs,
       contentClassName,
       mediaPlayerTimeMs,
-      mediaPlayerTimeIntervalMs
+      mediaPlayerTimeIntervalMs,
+
+      onSaveSubscription
     } = this.props;
 
     return (
@@ -191,6 +195,8 @@ export default class TranscriptEngineOutput extends Component {
           onClick={onClick}
           onScroll={onScroll}
           className={classNames(contentClassName)}
+
+          onSaveSubscription={onSaveSubscription}
         />
       </div>
     );

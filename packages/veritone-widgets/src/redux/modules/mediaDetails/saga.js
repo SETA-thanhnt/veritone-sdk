@@ -131,6 +131,23 @@ function* loadTdoSaga(widgetId, tdoId) {
   // Extract EngineCategories data from EngineRuns
   if (get(tdo, 'engineRuns.records', false)) {
     tdo.engineRuns.records
+      .map(engineRun => {
+        const engineId = get(engineRun, 'engine.id');
+        // add transcript category for bulk-edit-transcript engine
+        if (engineId === 'bde0b023-333d-acb0-e01a-f95c74214607' || engineId === 'bulk-edit-transcript') {
+          if (!engineRun.engine.category) {
+            engineRun.engine.name = 'User Generated';
+            engineRun.engine.category = {
+              id: "67cd4dd0-2f75-445d-a6f0-2f297d6cd182",
+              name: "Transcription",
+              iconClass: "icon-transcription",
+              categoryType: "transcript",
+              editable: true
+            }
+          }
+        }
+        return engineRun;
+      })
       // filter those that have category, category icon, and are supported categories
       .filter(engineRun =>
           get(engineRun, 'engine.category.iconClass.length') &&
@@ -710,6 +727,42 @@ function* fetchSchemas(widgetId, schemaIds) {
       meta: { widgetId }
     });
   }
+}
+
+function* createBulkTranscriptEditAsset(widgetId) {
+
+  const requestTdo = yield select(tdo, widgetId);
+
+  const createTestBulkText = `mutation createAsset($containerId: ID!){
+      createAsset( input: {
+        containerId: $containerId,
+        contentType: 'text',
+        type: 'transcript',
+        file: 'transcript text goes here'
+      })
+    }`;
+
+  const config = yield select(configModule.getConfig);
+  const { apiRoot, graphQLEndpoint } = config;
+  const graphQLUrl = `${apiRoot}/${graphQLEndpoint}`;
+  const token = yield select(authModule.selectSessionToken);
+
+  let response;
+  try {
+    response = yield call(callGraphQLApi, {
+      endpoint: graphQLUrl,
+      query: createTestBulkText,
+      variables: { $containerId: requestTdo.id },
+      token
+    });
+  } catch (error) {
+
+  }
+
+  if (get(response, 'errors.length', 0)) {
+    response.errors.forEach(error => console.warn(error));
+  }
+
 }
 
 function* watchLoadEngineResultsComplete() {
